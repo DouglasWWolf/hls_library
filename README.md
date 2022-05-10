@@ -1,1 +1,2 @@
-"# hls_library" 
+# Library of general purpose HLS classes and code
+
