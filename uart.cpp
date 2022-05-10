@@ -147,7 +147,7 @@ void CUART::write_dec(uint32_t value, bool is_signed, uint8_t width)
     if (width > BUFFER_WIDTH - 1) width = BUFFER_WIDTH - 1;
 
     // Fill the output buffer with either spaces or ASCII zeros
-    loop_C: for (i = 0; i < BUFFER_WIDTH - 1; ++i) 
+    for (i = 0; i < BUFFER_WIDTH - 1; ++i) 
     {
         #pragma HLS unroll
         buffer[i] = ' ';
@@ -339,6 +339,8 @@ void CUART::write_byte(const uint8_t c)
 bool CUART::read_byte(uint8_t* c, bool blocking)
 {
     uint8_t value;
+
+    // If this is a blocking call, wait for a byte to arrive from the UART
     if (blocking)
     {
         _recv_fifo.read(value);
@@ -346,12 +348,15 @@ bool CUART::read_byte(uint8_t* c, bool blocking)
         return true;
     }
 
+    // This isn't a blocking call.   If there is a byte in the FIFO, 
+    // hand it to the caller and then him he has a byte
     if (_recv_fifo.read_nb(value))
     {
         *c = value;
         return true;
     }
 
+    // This wasn't a blocking call, and there was no byte waiting in the FIFO
     return false;
 }
 //=========================================================================================================
