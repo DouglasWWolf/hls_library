@@ -105,7 +105,7 @@ void CUART::print(const char fmt[128], uint32_t v0, uint32_t v1, uint32_t v2, ui
                 break;
             }
 
-            // Ensure that "value_index" doesn't fall of the end of the array
+            // Ensure that "value_index" doesn't fall off the end of the array
             if (value_index > 3) value_index = 3;
         }
     }
