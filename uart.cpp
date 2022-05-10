@@ -335,6 +335,12 @@ void CUART::write_byte(const uint8_t c)
 
 //=========================================================================================================
 // read_byte() - Fetches a byte from the UART input stream
+//
+// Passed:   *c       = Where the fetches byte should be stored
+//           blocking = True if we should wait for a byte to arrive in the 
+//                      FIFO before returning.
+//
+// Returns: 'true' if a byte has been stuffed into '*c'
 //=========================================================================================================
 bool CUART::read_byte(uint8_t* c, bool blocking)
 {
@@ -349,7 +355,7 @@ bool CUART::read_byte(uint8_t* c, bool blocking)
     }
 
     // This isn't a blocking call.   If there is a byte in the FIFO, 
-    // hand it to the caller and then him he has a byte
+    // hand it to the caller and tell him he has a byte
     if (_recv_fifo.read_nb(value))
     {
         *c = value;
